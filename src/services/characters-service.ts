@@ -10,9 +10,20 @@ async function getCharacterList() {
     return characterList.rows[0];
 }
 
+async function findCharacterById(id: number) {
+    const character = await characterRepository.getCharacterById(id);
+    return character.rows[0];
+}
+
+async function levelUpCharacterById(char: Character, id: number) {
+    await characterRepository.levelUpCharacter(char.level, id);
+}
+
 const charactersService = {
     createCharacter,
-    getCharacterList
+    findCharacterById,
+    getCharacterList,
+    levelUpCharacterById
 };
   
 export default charactersService;

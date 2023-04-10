@@ -3,9 +3,23 @@ import { connection } from "../database/database.js";
 import { Character } from "../protocols.js";
 
 async function getCharacters(): Promise<QueryResult<Character>> {
-    return connection.query(`
-        SELECT * FROM characters;
-    `)
+    return connection.query(
+        "SELECT * FROM characters;"
+    )
+}
+
+async function getCharacterById(id: number): Promise<QueryResult<Character>> {
+    return connection.query(
+        "SELECT * FROM characters WHERE id = $1;",
+        [id]
+    )
+}
+
+async function levelUpCharacter(level: number, id: number) {
+    return connection.query(
+        "UPDATE characters SET level = $1 + 1 WHERE id = $2;",
+        [level, id]
+    );
 }
 
 async function postCharacter(char: Character) {
@@ -17,6 +31,8 @@ async function postCharacter(char: Character) {
 
 const characterRepository = {
     getCharacters,
+    getCharacterById,
+    levelUpCharacter,
     postCharacter
 };
 

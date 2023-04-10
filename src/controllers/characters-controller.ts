@@ -24,3 +24,17 @@ export async function findAllCharacters(req: Request, res: Response) {
     }
 
 }
+
+export async function levelUpCharacter(req: Request, res: Response) {
+
+    const id = Number(req.params.id);
+
+    try {
+        const character = await charactersService.findCharacterById(id);
+        await charactersService.levelUpCharacterById(character, id);
+        return res.status(200).send(`${character.name} updated! Actual level: ${character.level}`);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+
+}
