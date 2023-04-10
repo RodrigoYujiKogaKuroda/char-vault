@@ -8,8 +8,16 @@ async function getCharacters(): Promise<QueryResult<Character>> {
     `)
 }
 
+async function postCharacter(char: Character) {
+    return connection.query(
+        "INSERT INTO characters (name, race, class, level) VALUES ($1, $2, $3, $4);",
+        [char.name, char.race, char.class, char.level]
+    );
+}
+
 const characterRepository = {
-    getCharacters
+    getCharacters,
+    postCharacter
 };
 
 export default characterRepository;
