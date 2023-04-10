@@ -14,6 +14,20 @@ export async function createCharacter(req: Request, res: Response) {
 
 }
 
+export async function deleteCharacter(req: Request, res: Response) {
+
+    const id = Number(req.params.id);
+
+    try {
+        const character = await charactersService.findCharacterById(id);
+        await charactersService.eraseCharacterById(id);
+        return res.status(200).send(`${character.name} deleted.`);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+
+}
+
 export async function findAllCharacters(req: Request, res: Response) {
 
     try {

@@ -2,6 +2,13 @@ import { QueryResult } from "pg";
 import { connection } from "../database/database.js";
 import { Character } from "../protocols.js";
 
+async function deleteCharacter(id: number) {
+    return connection.query(
+        "DELETE FROM characters WHERE id = $1;",
+        [id]
+    )
+}
+
 async function getCharacters(): Promise<QueryResult<Character>> {
     return connection.query(
         "SELECT * FROM characters;"
@@ -30,6 +37,7 @@ async function postCharacter(char: Character) {
 }
 
 const characterRepository = {
+    deleteCharacter,
     getCharacters,
     getCharacterById,
     levelUpCharacter,
